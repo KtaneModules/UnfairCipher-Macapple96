@@ -13,8 +13,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: unfairCipher
   title: Unfair Cipher
-  description: Playfair Cipher is back. Angrier, chaotic. It doesn't play that fair
-    anymore.
+  description: 'Unfair Cipher - Release 1.0
+
+
+    Playfair Cipher is back. Angrier, chaotic. It doesn''t play that fair anymore.
+
+
+    Manual (HTML): https://ktane.timwi.de/HTML/Unfair%20Cipher.html
+
+
+    Module ID: unfairCipher
+
+
+    Created by: Maca'
   version: 1.0
   outputFolder: build
   previewImage: {fileID: 2800000, guid: 6005113e53a7d80449720affbd78d961, type: 3}

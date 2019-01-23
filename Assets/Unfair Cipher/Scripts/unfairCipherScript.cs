@@ -103,6 +103,7 @@ public class unfairCipherScript : MonoBehaviour
     void Start()
     {
         StartCoroutine(AwakeProcess());
+ 
     }
 
     #endregion
@@ -1524,20 +1525,18 @@ public class unfairCipherScript : MonoBehaviour
 
         DebugMsg("== ORDERS AND ENCRYPTIONS ==");
 
-        DebugMsg("Original orders string: " + message);
-
-        DebugMsg("Orders string first encryption (Key A): " + ordersEncryptA);
-
-        //DebugMsg("Orders string second encryption (Key B): " + ordersEncryptB);
+        DebugMsg("After Caesar Cipher (Offset " + offset + "): " + caesarEncryptC);
 
         DebugMsg("Orders string last encryption (Key C): " + ordersEncryptC);
 
-        DebugMsg("After Caesar Cipher (Offset " + offset + "): " + caesarEncryptC);
+        DebugMsg("Orders string first encryption (Key A): " + ordersEncryptA);
+
+        DebugMsg("Original orders string: " + message);
+
+        //DebugMsg("Orders string second encryption (Key B): " + ordersEncryptB);
 
         string splicedOrders = caesarEncryptC.Insert(3 * 5, "\n");
-
-
-
+        
         StartCoroutine(OrderSlow(splicedOrders));
 
     }
