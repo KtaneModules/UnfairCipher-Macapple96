@@ -10333,7 +10333,8 @@ MonoBehaviour:
   TimeLimit: 600
   BombSize: 1
   FrontFaceOnly: 1
-  EdgeworkConfiguration: {fileID: 0}
+  EdgeworkConfiguration: {fileID: 11400000, guid: f621d4f291ca71f459cc20368eea9f20,
+    type: 2}
   TwitchPlaysActive: 1
   TwitchPlaysMode: 1
   turnSpeed: 128
@@ -14627,6 +14628,12 @@ Prefab:
       propertyPath: AudioClips.Array.data[12]
       value: 
       objectReference: {fileID: 8300000, guid: ff67457e68a630641bb86001d43c0ad5, type: 3}
+    - target: {fileID: 114959006483191376, guid: a0181e7851fed4a4e974e55eeab81037,
+        type: 2}
+      propertyPath: EdgeworkConfiguration
+      value: 
+      objectReference: {fileID: 11400000, guid: f621d4f291ca71f459cc20368eea9f20,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a0181e7851fed4a4e974e55eeab81037, type: 2}
   m_IsPrefabParent: 0

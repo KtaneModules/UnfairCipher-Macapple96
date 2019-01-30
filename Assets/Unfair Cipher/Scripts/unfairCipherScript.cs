@@ -103,7 +103,7 @@ public class unfairCipherScript : MonoBehaviour
     void Start()
     {
         StartCoroutine(AwakeProcess());
- 
+
     }
 
     #endregion
@@ -281,6 +281,7 @@ public class unfairCipherScript : MonoBehaviour
             buttonSelectable = buttons[5];
             if (match.Groups[2].Success)
             {
+                yield return null;
                 buttonSelectable.OnInteract();
                 yield return @"sendtochat Kappa was it really necessary to schedule a screen press, /me ?";
                 yield break;
@@ -390,7 +391,7 @@ public class unfairCipherScript : MonoBehaviour
 
 
 
-        string[] welcometextarray = { "THIS WILL BE FUN", "CHAOS CHAOS", "HEXADECIMALIZING", "I AM NOT SIMON", "42", "GET IN THE ROBOT\nSHINJI", "BEING MEGUCA IS\nSUFFERING", "IT'S AN ANGERU", "IT'S AN ANJANATH", "YOU ACTIVATED MY\nTRAP CARD", "DIFFICULTY:\nUNFAIR", "CHECKMATE.", "SORRY... :)", "YOU'LL HAVE A\nBAD TIME", "GET\nTHRASHED", "CASTING METEOR:\n▒▒▒▒▒▒▒▒▒▒▒▒▒" };
+        string[] welcometextarray = { "THIS WILL BE FUN", "CHAOS CHAOS", "HEXADECIMALIZING", "I AM NOT SIMON", "42", "GET IN THE ROBOT\nSHINJI", "BEING MEGUCA IS\nSUFFERING", "IT'S AN ANGERU", "IT'S AN ANJANATH", "YOU ACTIVATED MY\nTRAP CARD", "DIFFICULTY:\nUNFAIR", "CHECKMATE.", "SORRY... :)", "YOU'LL HAVE A\nBAD TIME", "GET\nTHRASHED", "CASTING METEOR:\n▒▒▒▒▒▒▒▒▒▒▒▒▒","RIICHI, IPPATSU\nJUNCHAN, DORA","SO ZETTA SLOW!","FACTORIAL!","SOHCAHTOA","INVERSE MATRIX!","DROWN IN THE\nDIRAC SEA", "3.14159265358979\n3238462643383279","QED. CLASS IS\nEXPLODED","PREPARE TO BE\nITERATED!" };
         string welcometext = welcometextarray[UnityEngine.Random.Range(0, welcometextarray.Length)];
         StringBuilder screentext = new StringBuilder();
         screen.color = Color.red;
@@ -1424,15 +1425,15 @@ public class unfairCipherScript : MonoBehaviour
 
         DebugMsg(" == OFFSET CALCULATION (CAESAR CIPHER) == ");
 
-        foreach (string port in Bomb.GetPorts()) //Offset 2 letter left for every non duplicate port, not once per port.
+        foreach (string port in Bomb.GetPorts().Distinct()) //Offset 2 letter left for every non duplicate port, not once per port.
         {
-            if (!(Bomb.GetPortCount(port) > 1))
-            {
-                offset -= 2;
-                DebugMsg("Port " + port + " is unique. Offset -2 (" + offset + ")");
-            }
+
+            offset -= 2;
+            DebugMsg("Port " + port + " is unique. Offset -2 (" + offset + ")");
 
         }
+
+        //offset -= 2 * (Bomb.GetPorts().Distinct().Count());
 
         // Port Plates
 
@@ -1442,7 +1443,7 @@ public class unfairCipherScript : MonoBehaviour
         }
 
         DebugMsg("Offset increased by " + Bomb.GetPortPlateCount() + " (Port Plates) " + " (" + offset + ")");
-        
+
         // Serial
 
         foreach (char c in Bomb.GetSerialNumberLetters())
@@ -1503,7 +1504,7 @@ public class unfairCipherScript : MonoBehaviour
         }
         /*/
 
-        if (Bomb.GetPortPlateCount() == 0)
+        if (Bomb.GetPortCount() == 0)
         {
             offset *= 2;
             DebugMsg("Bomb has no ports! Offset doubled!" + " (" + offset + ")");
@@ -1536,7 +1537,7 @@ public class unfairCipherScript : MonoBehaviour
         //DebugMsg("Orders string second encryption (Key B): " + ordersEncryptB);
 
         string splicedOrders = caesarEncryptC.Insert(3 * 5, "\n");
-        
+
         StartCoroutine(OrderSlow(splicedOrders));
 
     }

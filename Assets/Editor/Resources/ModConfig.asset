@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: unfairCipher
   title: Unfair Cipher
-  description: 'Unfair Cipher - Release 1.0
+  description: 'Unfair Cipher v1.0.4
 
 
     Playfair Cipher is back. Angrier, chaotic. It doesn''t play that fair anymore.
