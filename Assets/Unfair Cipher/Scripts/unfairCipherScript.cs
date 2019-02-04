@@ -1783,7 +1783,7 @@ public class unfairCipherScript : MonoBehaviour
     void DebugMsg(string message)
     {
         //Debug.LogFormat("[Unfair Cipher #{0}]: Stage {2}, {3} Strikes - {1}", _moduleId, message, stage, strikeCounter);
-        Debug.LogFormat("[Unfair Cipher #{0}]: {1}", _moduleId, message);
+        Debug.LogFormat("[Unfair Cipher #{0}] {1}", _moduleId, message);
     }
 
     private void Update()
