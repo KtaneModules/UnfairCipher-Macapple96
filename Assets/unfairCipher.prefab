@@ -3255,7 +3255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModuleType: unfairCipher
   ModuleDisplayName: Unfair Cipher
-  RequiresTimerVisibility: 0
+  RequiresTimerVisibility: 1
 --- !u!114 &114432749422024170
 MonoBehaviour:
   m_ObjectHideFlags: 1
