@@ -40,8 +40,9 @@ public class unfairCipherScript : MonoBehaviour
     private int portPlates;
     private int batHolders;
     int colorpresses = 0;
+    //int mits = 0;
     int strikeCounter = 0;
-    int lastStrikeCount = 0;
+    int lastStrikeCount;
     int buttonint;
     int offset;
 
@@ -58,7 +59,7 @@ public class unfairCipherScript : MonoBehaviour
     //private string[] colors = {"PCR","PCG","PCB"};
     //private string[] actions = {"SUB","MIT","CHK","PRI","BOB","REP","EAT","STR","IKE"};
     private string[] orders = { "PCR", "PCG", "PCB", "SUB", "MIT", "CHK", "PRN", "BOB", "REP", "EAT", "STR", "IKE" };
-    string[] Message = new string[10];
+    string[] Message = new string[4];
     private string message;
     private string encMessage;
     private string encEncMessage;
@@ -224,7 +225,7 @@ public class unfairCipherScript : MonoBehaviour
     #region twitchPlays
 
 #pragma warning disable 0414
-    public string TwitchHelpMessage = @"To press a button, use “!{0} press R, G, B, Center or Outer”.\nPress the screen with “ !{0} press screen ”\n To press a button at a specified time, use “at <time>”, for example “!{0} press Center at 0:44”";
+    public string TwitchHelpMessage = "To press a button, use “!{0} press R, G, B, Inner or Outer”.\nPress the screen with “ !{0} press screen ”\n To press a button at a specified time, use “at <time>”, for example “!{0} press Center at 0:44”";
 #pragma warning restore 0414
 
     public void TwitchHandleForcedSolve()
@@ -391,7 +392,7 @@ public class unfairCipherScript : MonoBehaviour
 
 
 
-        string[] welcometextarray = { "THIS WILL BE FUN", "CHAOS CHAOS", "HEXADECIMALIZING", "I AM NOT SIMON", "42", "GET IN THE ROBOT\nSHINJI", "BEING MEGUCA IS\nSUFFERING", "IT'S AN ANGERU", "IT'S AN ANJANATH", "YOU ACTIVATED MY\nTRAP CARD", "DIFFICULTY:\nUNFAIR", "CHECKMATE.", "SORRY... :)", "YOU'LL HAVE A\nBAD TIME", "GET\nTHRASHED", "CASTING METEOR:\n▒▒▒▒▒▒▒▒▒▒▒▒▒","RIICHI, IPPATSU\nJUNCHAN, DORA","SO ZETTA SLOW!","FACTORIAL!","SOHCAHTOA","INVERSE MATRIX!","DROWN IN THE\nDIRAC SEA", "3.14159265358979\n3238462643383279","QED. CLASS IS\nEXPLODED","PREPARE TO BE\nITERATED!" };
+        string[] welcometextarray = { "THIS WILL BE FUN", "CHAOS CHAOS", "HEXADECIMALIZING", "I AM NOT SIMON", "42", "GET IN THE ROBOT\nSHINJI", "BEING MEGUCA IS\nSUFFERING", "IT'S AN ANGERU", "IT'S AN ANJANATH", "YOU ACTIVATED MY\nTRAP CARD", "DIFFICULTY:\nUNFAIR", "CHECKMATE.", "SORRY... :)", "YOU'LL HAVE A\nBAD TIME", "GET\nTHRASHED", "CASTING METEOR:\n▒▒▒▒▒▒▒▒▒▒▒▒▒", "RIICHI, IPPATSU\nJUNCHAN, DORA", "SO ZETTA SLOW!", "FACTORIAL!", "SOHCAHTOA", "INVERSE MATRIX!", "DROWN IN THE\nDIRAC SEA", "3.14159265358979\n3238462643383279", "QED. CLASS IS\nEXPLODED", "PREPARE TO BE\nITERATED!" };
         string welcometext = welcometextarray[UnityEngine.Random.Range(0, welcometextarray.Length)];
         StringBuilder screentext = new StringBuilder();
         screen.color = Color.red;
@@ -441,31 +442,9 @@ public class unfairCipherScript : MonoBehaviour
         //DebugMsg("Eskere");
     }
 
-    IEnumerator Solve()
+    IEnumerator solveFlash()
     {
         yield return null;
-
-        solved = true;
-        module.HandlePass();
-
-        ////////////////////
-
-        int iterate = 0;
-
-        Audio.PlaySoundAtTransform(sounds[10].name, transform);
-        yield return new WaitForSeconds(0.95f);
-        while (iterate < 15)
-        {
-            iterate++;
-            int rand = UnityEngine.Random.Range(0, 6);
-            Audio.PlaySoundAtTransform(rand == 5 ? sounds[12].name : sounds[11].name, transform);
-            yield return new WaitForSeconds(rand == 5 ? sounds[12].length : sounds[11].length);
-
-        }
-
-        Audio.PlaySoundAtTransform(sounds[13].name, transform);
-        yield return new WaitForSeconds(sounds[13].length + 0.02f);
-
         int flash = 0;
 
         while (flash < 10)
@@ -481,6 +460,40 @@ public class unfairCipherScript : MonoBehaviour
             flash++;
         }
         foreach (var led in LEDS) led.sharedMaterial = LEDState[1];
+    }
+
+    IEnumerator Solve()
+    {
+        yield return null;
+
+        solved = true;
+        module.HandlePass();
+
+        ////////////////////
+
+        int iterate = 0;
+
+        Audio.PlaySoundAtTransform(sounds[10].name, transform);
+        yield return new WaitForSeconds(0.95f);
+        while (iterate < UnityEngine.Random.Range(15, 20))
+        {
+
+            iterate++;
+            int rand = UnityEngine.Random.Range(0, 6);
+            foreach (var led in LEDS) led.sharedMaterial = LEDState[1];
+            Audio.PlaySoundAtTransform(rand == 5 ? sounds[12].name : sounds[11].name, transform);
+            yield return new WaitForSeconds(rand == 5 ? sounds[12].length : sounds[11].length);
+            foreach (var led in LEDS) led.sharedMaterial = LEDState[0];
+            yield return new WaitForSeconds(0.01f);
+
+        }
+
+        Audio.PlaySoundAtTransform(sounds[13].name, transform);
+        yield return new WaitForSeconds(sounds[13].length + 0.02f);
+
+
+        //StartCoroutine(solveFlash());
+
         screen.text = "";
         idScreen.text = "";
         for (int l = 0; l < shinylights.Length; l++)
@@ -523,9 +536,10 @@ public class unfairCipherScript : MonoBehaviour
 
         else if (currentOrder == "MIT")
         {
-            int merc = _moduleId + colorpresses;
-            int mercmod = Modulo(merc, 60);
-            logVerboseAnswer = ("Answer for \"" + currentOrder + "\" : Press Inner Center when the seconds digits on the timer are either " + mercmod + ", " + Modulo(mercmod + 1, 60) + ", " + Modulo(mercmod + 2, 60) + ", " + Modulo(mercmod - 1, 60) + ", or " + Modulo(mercmod - 2, 60) + " [( " + _moduleId + " + " + colorpresses + " ) % 60 = " + mercmod + " ± 2 )");
+            int merc = _moduleId + colorpresses + stage;
+            int mercmod = Modulo(merc, 10);
+            logVerboseAnswer = ("Answer for \"" + currentOrder + "\" : Press Inner Center when the last digit on the timer is " + mercmod);
+            //logVerboseAnswer = ("Answer for \"" + currentOrder + "\" : Press Inner Center when the last digit on the timer is " + mercmod + ", " + Modulo(mercmod + 1, 10) + ", " + Modulo(mercmod + 2, 10) + ", " + Modulo(mercmod - 1, 10) + ", or " + Modulo(mercmod - 2, 60) + " [( " + _moduleId + " + " + colorpresses + " ) % 60 = " + mercmod + " ± 2 )");
 
         }
 
@@ -725,12 +739,19 @@ public class unfairCipherScript : MonoBehaviour
 
                     if (button == "Center")
                     {
-                        int merc = _moduleId + colorpresses;
-                        int mercmod = Modulo(merc, 60);
-                        if (bombSeconds == Modulo(merc, 60) || bombSeconds == Modulo((mercmod + 1), 60) || bombSeconds == Modulo((mercmod + 2), 60) || bombSeconds == Modulo((mercmod - 1), 60) || bombSeconds == Modulo((mercmod - 2), 60))
+                        int merc = _moduleId + colorpresses + stage;
+                        int mercmod = Modulo(merc, 10);
+                        if (Modulo(bombSeconds, 10) == mercmod)
                         {
                             ansCorrect();
                         }
+
+                        /*/if (bombSeconds == Modulo(merc, 60) || bombSeconds == Modulo((mercmod + 1), 60) || bombSeconds == Modulo((mercmod + 2), 60) || bombSeconds == Modulo((mercmod - 1), 60) || bombSeconds == Modulo((mercmod - 2), 60))
+                        {
+                            ansCorrect();
+                        }
+                        /*/
+
                         else
                         {
                             DebugMsg("Button pressed at " + Bomb.GetFormattedTime() + ", seconds digits don't match any acceptable value.");
@@ -965,48 +986,36 @@ public class unfairCipherScript : MonoBehaviour
 
     private void ansCorrect()
     {
-        if (stage < 10)
-        {
-            Audio.PlaySoundAtTransform(sounds[UnityEngine.Random.Range(6, 10)].name, transform);
-            DebugMsg("Correct. Next Stage.");
-            stage++;
-            previousOrder = currentOrder;
-            verboseAction();
-        }
-        else
-        {
-            StartCoroutine(Solve());
-        }
 
         switch (stage)
         {
 
-            case 2:
+            case 1:
                 {
                     LEDS[0].sharedMaterial = LEDState[1];
                     break;
                 }
-            case 3:
+            case 2:
                 {
                     LEDS[1].sharedMaterial = LEDState[1];
                     break;
                 }
-            case 4:
+            case 3:
                 {
                     LEDS[2].sharedMaterial = LEDState[1];
                     break;
                 }
-            case 5:
+            case 4:
                 {
                     LEDS[3].sharedMaterial = LEDState[1];
                     break;
                 }
-            case 6:
+            case 5:
                 {
                     LEDS[4].sharedMaterial = LEDState[1];
                     break;
                 }
-            case 7:
+            case 6:
                 {
                     LEDS[5].sharedMaterial = LEDState[1];
                     break;
@@ -1035,6 +1044,21 @@ public class unfairCipherScript : MonoBehaviour
             default:
                 break;
         }
+
+        if (stage < 4)
+        {
+            Audio.PlaySoundAtTransform(sounds[UnityEngine.Random.Range(6, 10)].name, transform);
+            DebugMsg("Correct. Next Stage.");
+            stage++;
+            previousOrder = currentOrder;
+            verboseAction();
+
+        }
+        else
+        {
+            StartCoroutine(Solve());
+        }
+
     }
 
     #endregion
@@ -1120,7 +1144,7 @@ public class unfairCipherScript : MonoBehaviour
                 hexer.Append(replaceRemainder(remainder) + " ");
             }
 
-
+            //DebugMsg("CONVERTING TO HEX – HEXER CURRENT = "+ hexer);
 
 
         }
@@ -1131,7 +1155,7 @@ public class unfairCipherScript : MonoBehaviour
         convertedremainder = Reverse(hexer.ToString());
 
 
-        DebugMsg("Final Hex number: " + convertedremainder.Replace(" ", ""));
+        DebugMsg("Final Hex number: " + convertedremainder.Replace(" ", "").Trim());
 
         if (newserial16 != convertedremainder.Replace(" ", ""))
         {
@@ -1141,10 +1165,15 @@ public class unfairCipherScript : MonoBehaviour
 
         //Convert HEX numeric to Alphabet
 
-        string keyA16 = newserial16.Replace("26", "Z").Replace("25", "Y").Replace("24", "X").Replace("23", "W").Replace("22", "V").Replace("21", "U").Replace("20", "T").Replace("19", "S")
+
+
+        /*/string keyA16 = newserial16.Replace("26", "Z").Replace("25", "Y").Replace("24", "X").Replace("23", "W").Replace("22", "V").Replace("21", "U").Replace("20", "T").Replace("19", "S")
         .Replace("18", "R").Replace("17", "Q").Replace("16", "P").Replace("15", "O").Replace("14", "N").Replace("13", "M").Replace("12", "L").Replace("11", "K")
         .Replace("10", "I").Replace("9", "I").Replace("8", "H").Replace("7", "G").Replace("6", "F").Replace("5", "E").Replace("4", "D")
         .Replace("3", "C").Replace("2", "B").Replace("1", "A").Replace("0", "");
+        /*/
+
+        string keyA16 = Regex.Replace(newserial16, @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
         string keyAMID = Modulo(_moduleId, 26).ToString().Replace("26", "Z").Replace("25", "Y").Replace("24", "X").Replace("23", "W").Replace("22", "V").Replace("21", "U").Replace("20", "T").Replace("19", "S")
         .Replace("18", "R").Replace("17", "Q").Replace("16", "P").Replace("15", "O").Replace("14", "N").Replace("13", "M").Replace("12", "L").Replace("11", "K")
@@ -1190,7 +1219,7 @@ public class unfairCipherScript : MonoBehaviour
 
         keyA = keyA16 + keyAMID + keyAPP + keyABH;
 
-        DebugMsg("Calculted Key A: " + keyA);
+        DebugMsg("Calculted Key A: " + keyA16 + keyAMID + keyAPP + keyABH);
 
         // Key B
         // Key B is based on the day and month the bomb was started at.
@@ -1398,7 +1427,7 @@ public class unfairCipherScript : MonoBehaviour
         }
         /*/
 
-        for (int i = 0; i < 10; i++) // Get 10 random orders and make an array, so orders are split per stage
+        for (int i = 0; i < 4; i++) // Get 4 random orders and make an array, so orders are split per stage
         {
             Message[i] = orders[(UnityEngine.Random.Range(0, orders.Length))];
             //DebugMsg("MESSAGE #" + (i + 1) + ": " + Message[i]);
@@ -1536,9 +1565,10 @@ public class unfairCipherScript : MonoBehaviour
 
         //DebugMsg("Orders string second encryption (Key B): " + ordersEncryptB);
 
-        string splicedOrders = caesarEncryptC.Insert(3 * 5, "\n");
 
-        StartCoroutine(OrderSlow(splicedOrders));
+        //string splicedOrders = caesarEncryptC.Insert(3 * 5, "\n");
+
+        StartCoroutine(OrderSlow(caesarEncryptC));
 
     }
 
