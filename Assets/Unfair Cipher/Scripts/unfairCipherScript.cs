@@ -284,7 +284,7 @@ public class unfairCipherScript : MonoBehaviour
             {
                 yield return null;
                 buttonSelectable.OnInteract();
-                yield return @"sendtochat /me Kappa was it really necessary to schedule a screen press?";
+                yield return @"sendtochat /me Kappa was it really necessary to schedule a screen press {0}?";
                 yield break;
             }
         }
