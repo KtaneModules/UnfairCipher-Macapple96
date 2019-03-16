@@ -225,7 +225,7 @@ public class unfairCipherScript : MonoBehaviour
     #region twitchPlays
 
 #pragma warning disable 0414
-    public string TwitchHelpMessage = "To press a button, use “!{0} press R, G, B, Inner or Outer”. Press the screen with "!{0} press screen". To press a button at a specified time, use “at <time>”, for example “!{0} press Center at 0:44”";
+    public string TwitchHelpMessage = "To press a button, use “!{0} press R, G, B, Inner or Outer”. Press the screen with “!{0} press screen“. To press a button at a specified time, use “at <time>”, for example “!{0} press Center at 0:44”";
 #pragma warning restore 0414
 
     public void TwitchHandleForcedSolve()
