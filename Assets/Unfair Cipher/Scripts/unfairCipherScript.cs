@@ -92,7 +92,7 @@ public class unfairCipherScript : MonoBehaviour
     {
 
         //_moduleId = UnityEngine.Random.Range(1, 102);
-        _moduleId = moduleIdCounter++;
+        _moduleId = moduleIdCounter++; //beh
 
         float scalar = transform.lossyScale.x;
         for (var i = 0; i < shinylights.Length; i++)
@@ -225,7 +225,11 @@ public class unfairCipherScript : MonoBehaviour
     #region twitchPlays
 
 #pragma warning disable 0414
+
+     public string TwitchHelpMessage = "To press a button, use “!{0} press R, G, B, Inner or Outer”. Press the screen with “!{0} press screen“. To press a button at a specified time, use “at <time>”, for example “!{0} press Center at 0:44”";
+
     public string TwitchHelpMessage = "To press a button, use “!{0} press R, G, B, Inner or Outer”. Press the screen with “!{0} press screen“. To press a button at a specified time, use “at <time>”, for example “!{0} press Center at 0:44”";
+
 #pragma warning restore 0414
 
     public void TwitchHandleForcedSolve()
@@ -1175,20 +1179,14 @@ public class unfairCipherScript : MonoBehaviour
 
         string keyA16 = Regex.Replace(newserial16, @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
-        string keyAMID = Modulo(_moduleId, 26).ToString().Replace("26", "Z").Replace("25", "Y").Replace("24", "X").Replace("23", "W").Replace("22", "V").Replace("21", "U").Replace("20", "T").Replace("19", "S")
-        .Replace("18", "R").Replace("17", "Q").Replace("16", "P").Replace("15", "O").Replace("14", "N").Replace("13", "M").Replace("12", "L").Replace("11", "K")
-        .Replace("10", "I").Replace("9", "I").Replace("8", "H").Replace("7", "G").Replace("6", "F").Replace("5", "E").Replace("4", "D")
-        .Replace("3", "C").Replace("2", "B").Replace("1", "A").Replace("0", "");
 
-        string keyAPP = Modulo(portPlates, 26).ToString().Replace("26", "Z").Replace("25", "Y").Replace("24", "X").Replace("23", "W").Replace("22", "V").Replace("21", "U").Replace("20", "T").Replace("19", "S")
-        .Replace("18", "R").Replace("17", "Q").Replace("16", "P").Replace("15", "O").Replace("14", "N").Replace("13", "M").Replace("12", "L").Replace("11", "K")
-        .Replace("10", "I").Replace("9", "I").Replace("8", "H").Replace("7", "G").Replace("6", "F").Replace("5", "E").Replace("4", "D")
-        .Replace("3", "C").Replace("2", "B").Replace("1", "A").Replace("0", "");
+        string keyAMID = Regex.Replace((Modulo((_moduleId-1),26)+1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
-        string keyABH = Modulo(batHolders, 26).ToString().Replace("26", "Z").Replace("25", "Y").Replace("24", "X").Replace("23", "W").Replace("22", "V").Replace("21", "U").Replace("20", "T").Replace("19", "S")
-        .Replace("18", "R").Replace("17", "Q").Replace("16", "P").Replace("15", "O").Replace("14", "N").Replace("13", "M").Replace("12", "L").Replace("11", "K")
-        .Replace("10", "I").Replace("9", "I").Replace("8", "H").Replace("7", "G").Replace("6", "F").Replace("5", "E").Replace("4", "D")
-        .Replace("3", "C").Replace("2", "B").Replace("1", "A").Replace("0", "");
+
+        string keyAPP = Regex.Replace((Modulo((portPlates-1), 26)+1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
+
+
+        string keyABH = Regex.Replace((Modulo((batHolders-1), 26)+1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
         if (_moduleId != 0)
         {
@@ -1287,10 +1285,13 @@ public class unfairCipherScript : MonoBehaviour
 
         preKeyB = keyBTable[month - 1, dayInt - 1];
 
-        keyB = preKeyB.Replace("26", "Z").Replace("25", "Y").Replace("24", "X").Replace("23", "W").Replace("22", "V").Replace("21", "U").Replace("20", "T").Replace("19", "S")
+        /*keyB = preKeyB.Replace("26", "Z").Replace("25", "Y").Replace("24", "X").Replace("23", "W").Replace("22", "V").Replace("21", "U").Replace("20", "T").Replace("19", "S")
         .Replace("18", "R").Replace("17", "Q").Replace("16", "P").Replace("15", "O").Replace("14", "N").Replace("13", "M").Replace("12", "L").Replace("11", "K")
         .Replace("10", "J").Replace("9", "I").Replace("8", "H").Replace("7", "G").Replace("6", "F").Replace("5", "E").Replace("4", "D")
         .Replace("3", "C").Replace("2", "B").Replace("1", "A").Replace("0", "");
+        */
+
+        keyB = Regex.Replace(preKeyB, @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
         DebugMsg("Key B: " + keyB + " (" + preKeyB + ")");
 
