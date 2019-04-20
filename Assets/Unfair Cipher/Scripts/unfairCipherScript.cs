@@ -183,7 +183,7 @@ public class unfairCipherScript : MonoBehaviour
     IEnumerator Strike()
     {
         yield return null;
-
+        live = false;
         module.HandleStrike();
         strikeCounter++;
 
@@ -220,13 +220,14 @@ public class unfairCipherScript : MonoBehaviour
         }
         verboseAction();
         resetLeds();
+        live = true;
     }
 
     #region twitchPlays
 
 #pragma warning disable 0414
 
-     public string TwitchHelpMessage = "To press a button, use “!{0} press R, G, B, Inner or Outer”. Press the screen with “!{0} press screen“. To press a button at a specified time, use “at <time>”, for example “!{0} press Center at 0:44”";
+
 
     public string TwitchHelpMessage = "To press a button, use “!{0} press R, G, B, Inner or Outer”. Press the screen with “!{0} press screen“. To press a button at a specified time, use “at <time>”, for example “!{0} press Center at 0:44”";
 
@@ -389,7 +390,7 @@ public class unfairCipherScript : MonoBehaviour
 
         //Audio should play here, some leds will slowly light up
 
-
+        DebugMsg(":::Unfair Cipher Version: 1.1.3::::");
 
         screen.text = "";
         idScreen.text = "";
@@ -450,7 +451,7 @@ public class unfairCipherScript : MonoBehaviour
     {
         yield return null;
         int flash = 0;
-
+        
         while (flash < 10)
         {
             foreach (var led in LEDS) led.sharedMaterial = LEDState[1];
@@ -479,7 +480,7 @@ public class unfairCipherScript : MonoBehaviour
 
         Audio.PlaySoundAtTransform(sounds[10].name, transform);
         yield return new WaitForSeconds(0.95f);
-        while (iterate < UnityEngine.Random.Range(15, 20))
+        while (iterate < UnityEngine.Random.Range(15, 25))
         {
 
             iterate++;
@@ -488,7 +489,7 @@ public class unfairCipherScript : MonoBehaviour
             Audio.PlaySoundAtTransform(rand == 5 ? sounds[12].name : sounds[11].name, transform);
             yield return new WaitForSeconds(rand == 5 ? sounds[12].length : sounds[11].length);
             foreach (var led in LEDS) led.sharedMaterial = LEDState[0];
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.005f);
 
         }
 
@@ -648,7 +649,7 @@ public class unfairCipherScript : MonoBehaviour
             }
             else
             {
-                DebugMsg("Module not live");
+                DebugMsg("Module not interactable! (is it in a strike animation or solved?)");
                 return false;
             }
 
@@ -1180,17 +1181,17 @@ public class unfairCipherScript : MonoBehaviour
         string keyA16 = Regex.Replace(newserial16, @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
 
-        string keyAMID = Regex.Replace((Modulo((_moduleId-1),26)+1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
+        string keyAMID = Regex.Replace((Modulo((_moduleId - 1), 27) + 1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
 
-        string keyAPP = Regex.Replace((Modulo((portPlates-1), 26)+1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
+        string keyAPP = Regex.Replace((Modulo((portPlates - 1), 27) + 1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
 
-        string keyABH = Regex.Replace((Modulo((batHolders-1), 26)+1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
+        string keyABH = Regex.Replace((Modulo((batHolders - 1), 27) + 1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
         if (_moduleId != 0)
         {
-            DebugMsg("Module ID is " + _moduleId + ", which is equal to " + keyAMID + ":\n (" + _moduleId + " % 26 = " + Modulo(_moduleId, 26) + ")");
+            DebugMsg("Module ID is " + _moduleId + ", which is equal to " + keyAMID + ":\n ((" + _moduleId + "-1 % 26) + 1 = " + Modulo(_moduleId, 26) + ")");
         }
         else
         {
@@ -1199,7 +1200,7 @@ public class unfairCipherScript : MonoBehaviour
 
         if (portPlates != 0)
         {
-            DebugMsg("There are " + portPlates + " port plates, which equal to " + keyAPP + ":\n (" + portPlates + " % 26 = " + Modulo(portPlates, 26) + ")");
+            DebugMsg("There are " + portPlates + " port plates, which equal to " + keyAPP + ":\n ((" + portPlates + " -1 % 26) + 1 = " + Modulo(portPlates, 26) + ")");
         }
         else
         {
@@ -1208,7 +1209,7 @@ public class unfairCipherScript : MonoBehaviour
 
         if (batHolders != 0)
         {
-            DebugMsg("There are " + batHolders + " battery holders, which equal to " + keyABH + ":\n (" + batHolders + " % 26 = " + Modulo(batHolders, 26) + ")");
+            DebugMsg("There are " + batHolders + " battery holders, which equal to " + keyABH + ":\n ((" + batHolders + " -1 % 26) + 1 = " + Modulo(batHolders, 26) + ")");
         }
         else
         {
@@ -1829,7 +1830,7 @@ public class unfairCipherScript : MonoBehaviour
             {
                 lastStrikeCount = strikeCounter;
 
-                DebugMsg("Strike detected somewhere in the bomb!");
+                DebugMsg("Strike detected!");
             }
         }
         if (!idScreenShow)
