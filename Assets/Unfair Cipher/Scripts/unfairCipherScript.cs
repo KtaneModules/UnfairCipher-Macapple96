@@ -58,6 +58,7 @@ public class unfairCipherScript : MonoBehaviour
 
     //private string[] colors = {"PCR","PCG","PCB"};
     //private string[] actions = {"SUB","MIT","CHK","PRI","BOB","REP","EAT","STR","IKE"};
+    private static string version = "1.1.3b";
     private string[] orders = { "PCR", "PCG", "PCB", "SUB", "MIT", "CHK", "PRN", "BOB", "REP", "EAT", "STR", "IKE" };
     string[] Message = new string[4];
     private string message;
@@ -390,7 +391,7 @@ public class unfairCipherScript : MonoBehaviour
 
         //Audio should play here, some leds will slowly light up
 
-        DebugMsg(":::Unfair Cipher Version: 1.1.3::::");
+        DebugMsg(":::Unfair Cipher Version: " + version+":::");
 
         screen.text = "";
         idScreen.text = "";
@@ -1191,28 +1192,31 @@ public class unfairCipherScript : MonoBehaviour
 
         if (_moduleId != 0)
         {
-            DebugMsg("Module ID is " + _moduleId + ", which is equal to " + keyAMID + ":\n ((" + _moduleId + "-1 % 26) + 1 = " + Modulo(_moduleId, 26) + ")");
+            DebugMsg("Module ID is " + _moduleId + ", which is equal to " + keyAMID + ":\n ((" + _moduleId + "- 1 % 27) + 1 = " + Modulo(_moduleId, 26) + ")");
         }
         else
         {
+            keyAMID = "";
             DebugMsg("Module ID is 0, which is a blank space.");
         }
 
         if (portPlates != 0)
         {
-            DebugMsg("There are " + portPlates + " port plates, which equal to " + keyAPP + ":\n ((" + portPlates + " -1 % 26) + 1 = " + Modulo(portPlates, 26) + ")");
+            DebugMsg("There are " + portPlates + " port plates, which equal to " + keyAPP + ":\n ((" + portPlates + " - 1 % 27) + 1 = " + Modulo(portPlates, 26) + ")");
         }
         else
         {
+            keyAPP = "";
             DebugMsg("There are no port plates, which equals a blank space.");
         }
 
         if (batHolders != 0)
         {
-            DebugMsg("There are " + batHolders + " battery holders, which equal to " + keyABH + ":\n ((" + batHolders + " -1 % 26) + 1 = " + Modulo(batHolders, 26) + ")");
+            DebugMsg("There are " + batHolders + " battery holders, which equal to " + keyABH + ":\n ((" + batHolders + " - 1 % 27) + 1 = " + Modulo(batHolders, 26) + ")");
         }
         else
         {
+            keyABH = "";
             DebugMsg("There are no battery holders, which equals a blank space.");
         }
 
