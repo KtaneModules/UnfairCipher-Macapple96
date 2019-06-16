@@ -354,6 +354,16 @@ public class unfairCipherScript : MonoBehaviour
                 while (Mathf.FloorToInt(Bomb.GetTime()) != secs) yield return "trycancel Button not pressed due to cancel request";
                 if (music) yield return "end waiting music";
                 yield return null;
+
+                if (!TwitchZenMode)
+                {
+                    if (Mathf.FloorToInt(Bomb.GetTime()) < secs) yield break;
+                }
+                else
+                {
+                    if (Mathf.FloorToInt(Bomb.GetTime()) > secs) yield break;
+                } // *Should* get rid of "unsync" strikes due to sending commands right on the specified timeframe. (Thanks @red031000)
+
                 buttonSelectable.OnInteract();
                 yield return new WaitForSeconds(0.1f);
                 //DebugMsg("Twitch Debug Output: " + buttonName + ", " + secs);
@@ -391,7 +401,7 @@ public class unfairCipherScript : MonoBehaviour
 
         //Audio should play here, some leds will slowly light up
 
-        DebugMsg(":::Unfair Cipher Version: " + version+":::");
+        DebugMsg(":::Unfair Cipher Version: " + version+"::: for ");
 
         screen.text = "";
         idScreen.text = "";
