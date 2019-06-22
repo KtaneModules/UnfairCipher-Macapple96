@@ -58,7 +58,7 @@ public class unfairCipherScript : MonoBehaviour
 
     //private string[] colors = {"PCR","PCG","PCB"};
     //private string[] actions = {"SUB","MIT","CHK","PRI","BOB","REP","EAT","STR","IKE"};
-    private static string version = "1.1.3b";
+    private static string version = "1.1.4";
     private string[] orders = { "PCR", "PCG", "PCB", "SUB", "MIT", "CHK", "PRN", "BOB", "REP", "EAT", "STR", "IKE" };
     string[] Message = new string[4];
     private string message;
@@ -92,7 +92,7 @@ public class unfairCipherScript : MonoBehaviour
     void Awake()
     {
 
-        //_moduleId = UnityEngine.Random.Range(1, 102);
+        //_moduleId = 27;
         _moduleId = moduleIdCounter++; //beh
 
         float scalar = transform.lossyScale.x;
@@ -1192,17 +1192,17 @@ public class unfairCipherScript : MonoBehaviour
         string keyA16 = Regex.Replace(newserial16, @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
 
-        string keyAMID = Regex.Replace((Modulo((_moduleId - 1), 27) + 1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
+        string keyAMID = Regex.Replace((Modulo((_moduleId - 1), 26) + 1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
 
-        string keyAPP = Regex.Replace((Modulo((portPlates - 1), 27) + 1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
+        string keyAPP = Regex.Replace((Modulo((portPlates - 1), 26) + 1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
 
-        string keyABH = Regex.Replace((Modulo((batHolders - 1), 27) + 1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
+        string keyABH = Regex.Replace((Modulo((batHolders - 1), 26) + 1).ToString(), @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
         if (_moduleId != 0)
         {
-            DebugMsg("Module ID is " + _moduleId + ", which is equal to " + keyAMID + ":\n ((" + _moduleId + "- 1 % 27) + 1 = " + Modulo(_moduleId, 26) + ")");
+            DebugMsg("Module ID is " + _moduleId + ", which is equal to " + keyAMID + ":\n ((" + _moduleId + "- 1 % 26) + 1 = " + Modulo(_moduleId, 26) + ")");
         }
         else
         {
@@ -1212,7 +1212,7 @@ public class unfairCipherScript : MonoBehaviour
 
         if (portPlates != 0)
         {
-            DebugMsg("There are " + portPlates + " port plates, which equal to " + keyAPP + ":\n ((" + portPlates + " - 1 % 27) + 1 = " + Modulo(portPlates, 26) + ")");
+            DebugMsg("There are " + portPlates + " port plates, which equal to " + keyAPP + ":\n ((" + portPlates + " - 1 % 26) + 1 = " + Modulo(portPlates, 26) + ")");
         }
         else
         {
@@ -1222,7 +1222,7 @@ public class unfairCipherScript : MonoBehaviour
 
         if (batHolders != 0)
         {
-            DebugMsg("There are " + batHolders + " battery holders, which equal to " + keyABH + ":\n ((" + batHolders + " - 1 % 27) + 1 = " + Modulo(batHolders, 26) + ")");
+            DebugMsg("There are " + batHolders + " battery holders, which equal to " + keyABH + ":\n ((" + batHolders + " - 1 % 26) + 1 = " + Modulo(batHolders, 26) + ")");
         }
         else
         {
