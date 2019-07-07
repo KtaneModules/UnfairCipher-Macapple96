@@ -250,7 +250,7 @@ public class unfairCipherScript : MonoBehaviour
         }
 
         //var match = Regex.Match(cmd, @"^\s*press\s+(R|G|B|Inner|Outer)(\s+(?:at|on)\s+[0-9]?[0-9]?[0-9]:[0-5][0-9])?\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
-        var match = Regex.Match(cmd, @"^\s*press\s+(R|G|B|Inner|Outer|Screen)(\s+(?:(at|on)\s+(([0-9]?[0-9]?[0-9]):([0-5][0-9]))))?\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        var match = Regex.Match(cmd, @"^\s*(?:press\s+)?(R|G|B|Inner|Outer|Screen)(\s+(?:(at|on)\s+(([0-9]?[0-9]?[0-9]):([0-5][0-9]))))?\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
 
         if (!match.Success)
