@@ -1296,15 +1296,7 @@ public class unfairCipherScript : MonoBehaviour
         //DebugMsg("Month Reference Index: " + monthRefIndex + " " + "(" + keyBPrefixMonths[month - 1] + ")");
         DebugMsg("Month: " + month + ", Day of Week: " + day + " (" + dayInt + ")");
 
-        //preKeyB = monthRefIndex + dayInt.ToString();
-
         preKeyB = keyBTable[month - 1, dayInt - 1];
-
-        /*keyB = preKeyB.Replace("26", "Z").Replace("25", "Y").Replace("24", "X").Replace("23", "W").Replace("22", "V").Replace("21", "U").Replace("20", "T").Replace("19", "S")
-        .Replace("18", "R").Replace("17", "Q").Replace("16", "P").Replace("15", "O").Replace("14", "N").Replace("13", "M").Replace("12", "L").Replace("11", "K")
-        .Replace("10", "J").Replace("9", "I").Replace("8", "H").Replace("7", "G").Replace("6", "F").Replace("5", "E").Replace("4", "D")
-        .Replace("3", "C").Replace("2", "B").Replace("1", "A").Replace("0", "");
-        */
 
         keyB = Regex.Replace(preKeyB, @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
