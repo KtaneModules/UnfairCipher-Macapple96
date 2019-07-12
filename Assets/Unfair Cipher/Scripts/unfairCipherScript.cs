@@ -58,7 +58,7 @@ public class unfairCipherScript : MonoBehaviour
 
     //private string[] colors = {"PCR","PCG","PCB"};
     //private string[] actions = {"SUB","MIT","CHK","PRI","BOB","REP","EAT","STR","IKE"};
-    private static string version = "1.1.4";
+    private static string version = "1.1.5";
     private string[] orders = { "PCR", "PCG", "PCB", "SUB", "MIT", "CHK", "PRN", "BOB", "REP", "EAT", "STR", "IKE" };
     string[] Message = new string[4];
     private string message;
@@ -401,7 +401,7 @@ public class unfairCipherScript : MonoBehaviour
 
         //Audio should play here, some leds will slowly light up
 
-        DebugMsg(":::Unfair Cipher Version: " + version+"::: for ");
+        DebugMsg(":::Unfair Cipher Version: " + version+":::");
 
         screen.text = "";
         idScreen.text = "";
@@ -1232,7 +1232,7 @@ public class unfairCipherScript : MonoBehaviour
 
         keyA = keyA16 + keyAMID + keyAPP + keyABH;
 
-        DebugMsg("Calculted Key A: " + keyA16 + keyAMID + keyAPP + keyABH);
+        DebugMsg("Calculated Key A: " + keyA16 + keyAMID + keyAPP + keyABH);
 
         // Key B
         // Key B is based on the day and month the bomb was started at.
@@ -1244,21 +1244,17 @@ public class unfairCipherScript : MonoBehaviour
         //string monthRefIndex = keyBPrefixes[month - 1];
         string preKeyB;
 
-        string[,] keyBTable = new string[12, 7]
+        string[,] keyBTable = new string[7, 12]
         {
 
-            {"AB41","AB42","AB43","AB44","AB45","AB46","AB47"},
-            {"6522","6523","6524","6525","6526","6527","6528"},
-            {"DB83","DB84","DB85","DB86","DB87","DB88","DB89"},
-            {"B124","B125","B126","B127","B128","B129","B12A"},
-            {"DB95","DB96","DB97","DB98","DB99","DB9A","DB9B"},
-            {"AFE6","AFE7","AFE8","AFE9","AFEA","AFEB","AFEC"},
-            {"AFC7","AFC8","AFC9","AFCA","AFCB","AFCC","AB4D"},
-            {"C178","C179","C17A","C17B","C17C","C17D","AB4E"},
-            {"D5A9","D5AA","D5AB","D5AC","D5AD","D5AE","AB4F"},
-            {"FE1A","FE1B","FE1C","FE1D","FE1E","FE1F","FE20"},
-            {"EFAB","EFAC","EFAD","EFAE","EFAF","EFB0","EFB1"},
-            {"453C","453D","453E","453F","4540","4541","4542"},
+            {"ABDA","FEV","DBHC","BLD","DBIE","AFEF","AFCG","CQH","DEAI","FEAA","EFAB","DECC" },
+            {"ABDB","FEW","DBHD","BLE","DBIF","AFEG","AFCH","CQI","DEAA","FEAB","EFAC","DECD" },
+            {"ABDC","FEX","DBHE","BLF","DBIG","AFEH","AFCI","CQA","DEAB","FEAC","EFAD","DECE" },
+            {"ABDD","FEY","DBHF","BLG","DBIH","AFEI","AFCA","CQB","DEAC","FEAD","EFAE","DECF" },
+            {"ABDE","FEZ","DBHG","BLH","DBII","AFEA","AFCB","CQC","DEAD","FEAE","EFAF","DED" },
+            {"ABDF","FEBG","DBHH","BLI","DBIA","AFEB","AFCC","CQD","DEAE","FEAF","EFB","DEDA" },
+            {"ABDG","FEBH","DBHI","BLA","DBIB","AFEC","AFCD","CQE","DEAF","FET","EFBA","DEDB" },
+            
 
         };
 
@@ -1296,11 +1292,11 @@ public class unfairCipherScript : MonoBehaviour
         //DebugMsg("Month Reference Index: " + monthRefIndex + " " + "(" + keyBPrefixMonths[month - 1] + ")");
         DebugMsg("Month: " + month + ", Day of Week: " + day + " (" + dayInt + ")");
 
-        preKeyB = keyBTable[month - 1, dayInt - 1];
+        keyB = keyBTable[dayInt - 1, month - 1];
 
-        keyB = Regex.Replace(preKeyB, @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
+        //keyB = Regex.Replace(preKeyB, @"(2[0-6]|1[0-9]|[1-9])", m => ((char)(int.Parse(m.Groups[1].Value) + 'A' - 1)).ToString()).Replace("0", "");
 
-        DebugMsg("Key B: " + keyB + " (" + preKeyB + ")");
+        DebugMsg("Key B: " + keyB + " ( D "+month+", M "+dayInt+")");
 
 
         // Key C
