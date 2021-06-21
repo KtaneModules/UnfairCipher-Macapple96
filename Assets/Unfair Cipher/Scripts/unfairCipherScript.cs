@@ -58,7 +58,7 @@ public class unfairCipherScript : MonoBehaviour
 
     //private string[] colors = {"PCR","PCG","PCB"};
     //private string[] actions = {"SUB","MIT","CHK","PRI","BOB","REP","EAT","STR","IKE"};
-    private static string version = "1.1.5";
+    private static string version = "1.1.5.2"; // Updated Jun 07 2021
     private string[] orders = { "PCR", "PCG", "PCB", "SUB", "MIT", "CHK", "PRN", "BOB", "REP", "EAT", "STR", "IKE" };
     string[] Message = new string[4];
     private string message;
@@ -248,14 +248,12 @@ public class unfairCipherScript : MonoBehaviour
         {
             yield break;
         }
-
-        //var match = Regex.Match(cmd, @"^\s*press\s+(R|G|B|Inner|Outer)(\s+(?:at|on)\s+[0-9]?[0-9]?[0-9]:[0-5][0-9])?\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
-        var match = Regex.Match(cmd, @"^\s*(?:press\s+)?(R|G|B|Inner|Outer|Screen)(\s+(?:(at|on)\s+(([0-9]?[0-9]?[0-9]):([0-5][0-9]))))?\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
-
+        
+        var match = Regex.Match(cmd, @"^\s*(?:press\s+)?(R|G|B|Inner|Outer|Screen)(\s+(?:(at|on)\s+(([0-9]+):([0-5][0-9]))))?\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
         if (!match.Success)
         {
-            yield return @"sendtochaterror Input unrecognized. Use R, G, B, Inner or Outer, case insensitive";
+            yield return @"sendtochaterror Input unrecognized. Use R, G, B, Screen, Inner or Outer, case insensitive";
             yield break;
         }
 
@@ -408,7 +406,7 @@ public class unfairCipherScript : MonoBehaviour
 
 
 
-        string[] welcometextarray = { "THIS WILL BE FUN", "CHAOS CHAOS", "HEXADECIMALIZING", "I AM NOT SIMON", "42", "GET IN THE ROBOT\nSHINJI", "BEING MEGUCA IS\nSUFFERING", "IT'S AN ANGERU", "IT'S AN ANJANATH", "YOU ACTIVATED MY\nTRAP CARD", "DIFFICULTY:\nUNFAIR", "CHECKMATE.", "SORRY... :)", "YOU'LL HAVE A\nBAD TIME", "GET\nTHRASHED", "CASTING METEOR:\n▒▒▒▒▒▒▒▒▒▒▒▒▒", "RIICHI, IPPATSU\nJUNCHAN, DORA", "SO ZETTA SLOW!", "FACTORIAL!", "SOHCAHTOA", "INVERSE MATRIX!", "DROWN IN THE\nDIRAC SEA", "3.14159265358979\n3238462643383279", "QED. CLASS IS\nEXPLODED", "PREPARE TO BE\nITERATED!" };
+        string[] welcometextarray = { "THIS WILL BE FUN\n:)))))))", "HEXADECIMALIZING", "I AM NOT SIMON", "42\n42\n42", "GET IN THE ROBOT\nSHINJI", "BEING MEGUCA IS\nSUFFERING\n/人◕ ‿‿ ◕人\\", "IT'S AN ANGERU\n :o", "IT'S AN ANJANATH\n :O", "YOU ACTIVATED MY\nTRAP CARD", "DIFFICULTY:\nUNFAIR", "CHECKMATE.", "SORRY... :)", "YOU'LL HAVE A\nBAD TIME", "GET\nTHRASHED", "CASTING METEOR:\n▒▒▒▒▒▒▒▒▒▒▒▒▒", "RIICHI, IPPATSU\nJUNCHAN, DORA", "SO ZETTA SLOW!", "FACTORIAL!", "SOHCAHTOA", "INVERSE MATRIX!", "DROWN IN THE\nDIRAC SEA", "3.14159265358979\n3238462643383279", "QED. CLASS IS\nEXPLODED", "PREPARE TO BE\nITERATED!","THE GREAT BERATE\nYOU MADLADS <3" };
         string welcometext = welcometextarray[UnityEngine.Random.Range(0, welcometextarray.Length)];
         StringBuilder screentext = new StringBuilder();
         screen.color = Color.red;
@@ -868,13 +866,13 @@ public class unfairCipherScript : MonoBehaviour
                     }
                     break;
                 }
-            case "BOB":
+            case "BOB": // Best unicorn in the game 10/10 useful monkaOMEGA
                 {
                     if (button == "Center")
                     {
                         if (Bomb.IsIndicatorOn(Indicator.BOB) && Bomb.GetIndicators().ToArray().Length == 1 && Bomb.GetBatteryCount() == 2)
                         {
-                            DebugMsg("BOB Solve conditions met. Module Solved.");
+                            DebugMsg("BOB Unicorn conditions met. Module Solved.");
                             StartCoroutine(Solve());
                             break;
                         }
@@ -1545,8 +1543,8 @@ public class unfairCipherScript : MonoBehaviour
 
         if (Bomb.GetModuleNames().Count > 30)
         {
-            DebugMsg("Bomb has more than 30 modules! Offset halved!" + " (" + offset + ")");
             offset /= 2;
+            DebugMsg("Bomb has more than 30 modules! Offset halved!" + " (" + offset + ")"); // Fixed this stupid mistake kek
         }
 
         DebugMsg("Final Offset for Caesar Ciphering is: " + offset);
