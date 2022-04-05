@@ -46,6 +46,10 @@ public class unfairCipherScript : MonoBehaviour
     int buttonint;
     int offset;
 
+    string day = DateTime.Now.DayOfWeek.ToString();
+    int dayInt;
+    int month = DateTime.Now.Month;
+
     int stage = 1;
 
 
@@ -56,9 +60,7 @@ public class unfairCipherScript : MonoBehaviour
     bool live = false;
     bool idScreenShow = true;
 
-    //private string[] colors = {"PCR","PCG","PCB"};
-    //private string[] actions = {"SUB","MIT","CHK","PRI","BOB","REP","EAT","STR","IKE"};
-    private static string version = "1.1.5.2"; // Updated Jun 07 2021
+    private static string version = "1.1.5.3"; // Updated Jun 07 2021
     private string[] orders = { "PCR", "PCG", "PCB", "SUB", "MIT", "CHK", "PRN", "BOB", "REP", "EAT", "STR", "IKE" };
     string[] Message = new string[4];
     private string message;
@@ -68,9 +70,6 @@ public class unfairCipherScript : MonoBehaviour
     private string keyA;
     private string keyB;
     private string keyC;
-
-    //string[] keyBPrefixes = { "AB4", "652", "DB8", "B12", "DB9", "AFE", "AFC", "C17", "D5A", "FE0", "EFA", "453" };
-    //string[] keyBPrefixMonths = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
 
     string currentOrder;
     string previousOrder = "None";
@@ -1236,9 +1235,7 @@ public class unfairCipherScript : MonoBehaviour
         // Key B is based on the day and month the bomb was started at.
 
         DebugMsg("== KEY B  ==");
-        string day = DateTime.Now.DayOfWeek.ToString();
-        int dayInt;
-        int month = DateTime.Now.Month;
+        //Previous DateTime fetch location
         //string monthRefIndex = keyBPrefixes[month - 1];
         string preKeyB;
 
